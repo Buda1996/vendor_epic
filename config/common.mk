@@ -1,4 +1,4 @@
-PRODUCT_BRAND ?= cyanogenmod
+PRODUCT_BRAND ?= Epic-OS
 
 SUPERUSER_EMBEDDED := true
 SUPERUSER_PACKAGE_PREFIX := com.android.settings.cyanogenmod.superuser
@@ -13,7 +13,7 @@ TARGET_BOOTANIMATION_SIZE := $(shell \
   fi )
 
 # get a sorted list of the sizes
-bootanimation_sizes := $(subst .zip,, $(shell ls vendor/cm/prebuilt/common/bootanimation))
+bootanimation_sizes := $(subst .zip,, $(shell ls vendor/epic/prebuilt/common/bootanimation))
 bootanimation_sizes := $(shell echo -e $(subst $(space),'\n',$(bootanimation_sizes)) | sort -rn)
 
 # find the appropriate size and set
@@ -30,18 +30,10 @@ endef
 $(foreach size,$(bootanimation_sizes), $(call check_and_set_bootanimation,$(size)))
 
 ifeq ($(TARGET_BOOTANIMATION_HALF_RES),true)
-PRODUCT_BOOTANIMATION := vendor/cm/prebuilt/common/bootanimation/halfres/$(TARGET_BOOTANIMATION_NAME).zip
+PRODUCT_BOOTANIMATION := vendor/epic/prebuilt/common/bootanimation/halfres/$(TARGET_BOOTANIMATION_NAME).zip
 else
-PRODUCT_BOOTANIMATION := vendor/cm/prebuilt/common/bootanimation/$(TARGET_BOOTANIMATION_NAME).zip
+PRODUCT_BOOTANIMATION := vendor/epic/prebuilt/common/bootanimation/$(TARGET_BOOTANIMATION_NAME).zip
 endif
-endif
-
-ifdef CM_NIGHTLY
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.rommanager.developerid=cyanogenmodnightly
-else
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.rommanager.developerid=cyanogenmod
 endif
 
 PRODUCT_BUILD_PROP_OVERRIDES += BUILD_UTC_DATE=0
@@ -62,6 +54,42 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.setupwizard.enterprise_mode=1 \
     ro.com.android.dateformat=MM-dd-yyyy \
     ro.com.android.dataroaming=false
+	
+	PRODUCT_PROPERTY_OVERRIDES += \
+    ro.semc.sound_effects_enabled=true \
+    ro.semc.xloud.supported=true \
+    media.xloud.enable=1 \
+    media.xloud.supported=true \
+    ro.semc.enhance.supported=true
+
+PRODUCT_PROPERTY_OVERRIDES += \
+    persist.service.enhance.enable=1 \
+    ro.semc.clearaudio.supported=true \
+    persist.service.clearaudio.enable=1 \
+    ro.sony.walkman.logger=1 \
+    persist.service.walkman.enable=1 \
+    ro.somc.clearphase.supported=true \
+    persist.service.clearphase.enable=1 \
+    af.resampler.quality=255
+
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.product-res-path=framework/SemcGenericUxpRes.apk \
+    af.resampler.quality=255 \
+    ro.somc.clearphase.supported=true \
+    ro.semc.xloud.supported=true \
+    ro.somc.sforce.supported=true \
+    ro.service.swiqi3.supported=true \
+    persist.service.swiqi3.enable=1 \
+    tunnel.decode=true
+
+PRODUCT_PROPERTY_OVERRIDES += \
+    tunnel.audiovideo.decode=true \
+    persist.speaker.prot.enable=false \
+    media.aac_51_output_enabled=true \
+    dev.pm.dyn_samplingrate=1 \
+    ro.HOME_APP_ADJ=1 \
+    persist.sys.use_dithering=1 \
+    presist.sys.font_clarity=0
 
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.build.selinux=1
@@ -76,38 +104,38 @@ endif
 
 # Copy over the changelog to the device
 PRODUCT_COPY_FILES += \
-    vendor/cm/CHANGELOG.mkdn:system/etc/CHANGELOG-CM.txt
+    vendor/epic/CHANGELOG.mkdn:system/etc/CHANGELOG-EPIC.txt
 
 # Backup Tool
 ifneq ($(WITH_GMS),true)
 PRODUCT_COPY_FILES += \
-    vendor/cm/prebuilt/common/bin/backuptool.sh:install/bin/backuptool.sh \
-    vendor/cm/prebuilt/common/bin/backuptool.functions:install/bin/backuptool.functions \
-    vendor/cm/prebuilt/common/bin/50-cm.sh:system/addon.d/50-cm.sh \
-    vendor/cm/prebuilt/common/bin/blacklist:system/addon.d/blacklist
+    vendor/epic/prebuilt/common/bin/backuptool.sh:install/bin/backuptool.sh \
+    vendor/epic/prebuilt/common/bin/backuptool.functions:install/bin/backuptool.functions \
+    vendor/epic/prebuilt/common/bin/50-epic.sh:system/addon.d/50-epic.sh \
+    vendor/epic/prebuilt/common/bin/blacklist:system/addon.d/blacklist
 endif
 
 # Signature compatibility validation
 PRODUCT_COPY_FILES += \
-    vendor/cm/prebuilt/common/bin/otasigcheck.sh:install/bin/otasigcheck.sh
+    vendor/epic/prebuilt/common/bin/otasigcheck.sh:install/bin/otasigcheck.sh
 
 # init.d support
 PRODUCT_COPY_FILES += \
-    vendor/cm/prebuilt/common/etc/init.d/00banner:system/etc/init.d/00banner \
-    vendor/cm/prebuilt/common/bin/sysinit:system/bin/sysinit
+    vendor/epic/prebuilt/common/etc/init.d/00banner:system/etc/init.d/00banner \
+    vendor/epic/prebuilt/common/bin/sysinit:system/bin/sysinit
 
 # userinit support
 PRODUCT_COPY_FILES += \
-    vendor/cm/prebuilt/common/etc/init.d/90userinit:system/etc/init.d/90userinit
+    vendor/epic/prebuilt/common/etc/init.d/90userinit:system/etc/init.d/90userinit
 
-# CM-specific init file
+# epic-specific init file
 PRODUCT_COPY_FILES += \
-    vendor/cm/prebuilt/common/etc/init.local.rc:root/init.cm.rc
+    vendor/epic/prebuilt/common/etc/init.local.rc:root/init.epic-os.rc
 
 # Bring in camera effects
 PRODUCT_COPY_FILES +=  \
-    vendor/cm/prebuilt/common/media/LMprec_508.emd:system/media/LMprec_508.emd \
-    vendor/cm/prebuilt/common/media/PFFprec_600.emd:system/media/PFFprec_600.emd
+    vendor/epic/prebuilt/common/media/LMprec_508.emd:system/media/LMprec_508.emd \
+    vendor/epic/prebuilt/common/media/PFFprec_600.emd:system/media/PFFprec_600.emd
 
 # Enable SIP+VoIP on all targets
 PRODUCT_COPY_FILES += \
@@ -117,45 +145,40 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     frameworks/base/data/keyboards/Vendor_045e_Product_028e.kl:system/usr/keylayout/Vendor_045e_Product_0719.kl
 
-# This is CM!
+# This is epic!
 PRODUCT_COPY_FILES += \
-    vendor/cm/config/permissions/com.cyanogenmod.android.xml:system/etc/permissions/com.cyanogenmod.android.xml
+    vendor/epic/config/permissions/com.cyanogenmod.android.xml:system/etc/permissions/com.cyanogenmod.android.xml
 
 # T-Mobile theme engine
-include vendor/cm/config/themes_common.mk
+include vendor/epic/config/themes_common.mk
 
-# Required CM packages
+# Required epic packages
 PRODUCT_PACKAGES += \
     Development \
     LatinIME \
     BluetoothExt
 
-# Optional CM packages
+# Optional epic packages
 PRODUCT_PACKAGES += \
     VoicePlus \
-    Basic \
-    libemoji \
-    Terminal
+    libemoji 
+    
 
-# Custom CM packages
+# Custom epic packages
 PRODUCT_PACKAGES += \
     Launcher3 \
-    Trebuchet \
     AudioFX \
-    CMWallpapers \
     CMFileManager \
     Eleven \
     LockClock \
-    CMUpdater \
-    CMAccount \
-    CMHome
+    CMAccount 
 
-# CM Hardware Abstraction Framework
+# epic Hardware Abstraction Framework
 PRODUCT_PACKAGES += \
     org.cyanogenmod.hardware \
     org.cyanogenmod.hardware.xml
 
-# Extra tools in CM
+# Extra tools in epic
 PRODUCT_PACKAGES += \
     libsepol \
     openvpn \
@@ -213,103 +236,103 @@ endif
 PRODUCT_PROPERTY_OVERRIDES += \
     persist.sys.root_access=0
 
-PRODUCT_PACKAGE_OVERLAYS += vendor/cm/overlay/common
+PRODUCT_PACKAGE_OVERLAYS += vendor/epic/overlay/common
 
 PRODUCT_VERSION_MAJOR = 12
 PRODUCT_VERSION_MINOR = 0
 PRODUCT_VERSION_MAINTENANCE = 0-RC0
 
-# Set CM_BUILDTYPE from the env RELEASE_TYPE, for jenkins compat
+# Set EPIC_BUILDTYPE from the env RELEASE_TYPE, for jenkins compat
 
-ifndef CM_BUILDTYPE
+ifndef EPIC_BUILDTYPE
     ifdef RELEASE_TYPE
-        # Starting with "CM_" is optional
-        RELEASE_TYPE := $(shell echo $(RELEASE_TYPE) | sed -e 's|^CM_||g')
-        CM_BUILDTYPE := $(RELEASE_TYPE)
+        # Starting with "EPIC_" is optional
+        RELEASE_TYPE := $(shell echo $(RELEASE_TYPE) | sed -e 's|^EPIC_||g')
+        EPIC_BUILDTYPE := $(RELEASE_TYPE)
     endif
 endif
 
 # Filter out random types, so it'll reset to UNOFFICIAL
-ifeq ($(filter RELEASE NIGHTLY SNAPSHOT EXPERIMENTAL,$(CM_BUILDTYPE)),)
-    CM_BUILDTYPE :=
+ifeq ($(filter RELEASE NIGHTLY SNAPSHOT EXPERIMENTAL,$(EPIC_BUILDTYPE)),)
+    EPIC_BUILDTYPE :=
 endif
 
-ifdef CM_BUILDTYPE
-    ifneq ($(CM_BUILDTYPE), SNAPSHOT)
-        ifdef CM_EXTRAVERSION
+ifdef EPIC_BUILDTYPE
+    ifneq ($(EPIC_BUILDTYPE), SNAPSHOT)
+        ifdef EPIC_EXTRAVERSION
             # Force build type to EXPERIMENTAL
-            CM_BUILDTYPE := EXPERIMENTAL
-            # Remove leading dash from CM_EXTRAVERSION
-            CM_EXTRAVERSION := $(shell echo $(CM_EXTRAVERSION) | sed 's/-//')
-            # Add leading dash to CM_EXTRAVERSION
-            CM_EXTRAVERSION := -$(CM_EXTRAVERSION)
+            EPIC_BUILDTYPE := EXPERIMENTAL
+            # Remove leading dash from EPIC_EXTRAVERSION
+            EPIC_EXTRAVERSION := $(shell echo $(EPIC_EXTRAVERSION) | sed 's/-//')
+            # Add leading dash to EPIC_EXTRAVERSION
+            EPIC_EXTRAVERSION := -$(EPIC_EXTRAVERSION)
         endif
     else
-        ifndef CM_EXTRAVERSION
+        ifndef EPIC_EXTRAVERSION
             # Force build type to EXPERIMENTAL, SNAPSHOT mandates a tag
-            CM_BUILDTYPE := EXPERIMENTAL
+            EPIC_BUILDTYPE := EXPERIMENTAL
         else
-            # Remove leading dash from CM_EXTRAVERSION
-            CM_EXTRAVERSION := $(shell echo $(CM_EXTRAVERSION) | sed 's/-//')
-            # Add leading dash to CM_EXTRAVERSION
-            CM_EXTRAVERSION := -$(CM_EXTRAVERSION)
+            # Remove leading dash from EPIC_EXTRAVERSION
+            EPIC_EXTRAVERSION := $(shell echo $(EPIC_EXTRAVERSION) | sed 's/-//')
+            # Add leading dash to EPIC_EXTRAVERSION
+            EPIC_EXTRAVERSION := -$(EPIC_EXTRAVERSION)
         endif
     endif
 else
-    # If CM_BUILDTYPE is not defined, set to UNOFFICIAL
-    CM_BUILDTYPE := UNOFFICIAL
-    CM_EXTRAVERSION :=
+    # If EPIC_BUILDTYPE is not defined, set to UNOFFICIAL
+    EPIC_BUILDTYPE := UNOFFICIAL
+    EPIC_EXTRAVERSION :=
 endif
 
-ifeq ($(CM_BUILDTYPE), UNOFFICIAL)
+ifeq ($(EPIC_BUILDTYPE), UNOFFICIAL)
     ifneq ($(TARGET_UNOFFICIAL_BUILD_ID),)
-        CM_EXTRAVERSION := -$(TARGET_UNOFFICIAL_BUILD_ID)
+        EPIC_EXTRAVERSION := -$(TARGET_UNOFFICIAL_BUILD_ID)
     endif
 endif
 
-ifeq ($(CM_BUILDTYPE), RELEASE)
+ifeq ($(EPIC_BUILDTYPE), RELEASE)
     ifndef TARGET_VENDOR_RELEASE_BUILD_ID
-        CM_VERSION := $(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR).$(PRODUCT_VERSION_MAINTENANCE)$(PRODUCT_VERSION_DEVICE_SPECIFIC)-$(CM_BUILD)
+        EPIC_VERSION := $(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR).$(PRODUCT_VERSION_MAINTENANCE)$(PRODUCT_VERSION_DEVICE_SPECIFIC)-$(EPIC_BUILD)
     else
         ifeq ($(TARGET_BUILD_VARIANT),user)
-            CM_VERSION := $(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR)-$(TARGET_VENDOR_RELEASE_BUILD_ID)-$(CM_BUILD)
+            EPIC_VERSION := $(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR)-$(TARGET_VENDOR_RELEASE_BUILD_ID)-$(EPIC_BUILD)
         else
-            CM_VERSION := $(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR).$(PRODUCT_VERSION_MAINTENANCE)$(PRODUCT_VERSION_DEVICE_SPECIFIC)-$(CM_BUILD)
+            EPIC_VERSION := $(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR).$(PRODUCT_VERSION_MAINTENANCE)$(PRODUCT_VERSION_DEVICE_SPECIFIC)-$(EPIC_BUILD)
         endif
     endif
 else
     ifeq ($(PRODUCT_VERSION_MINOR),0)
-        CM_VERSION := $(PRODUCT_VERSION_MAJOR)-$(shell date -u +%Y%m%d)-$(CM_BUILDTYPE)$(CM_EXTRAVERSION)-$(CM_BUILD)
+        EPIC_VERSION := $(PRODUCT_VERSION_MAJOR)-$(shell date -u +%Y%m%d)-$(EPIC_BUILDTYPE)$(EPIC_EXTRAVERSION)-$(EPIC_BUILD)
     else
-        CM_VERSION := $(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR)-$(shell date -u +%Y%m%d)-$(CM_BUILDTYPE)$(CM_EXTRAVERSION)-$(CM_BUILD)
+        EPIC_VERSION := $(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR)-$(shell date -u +%Y%m%d)-$(EPIC_BUILDTYPE)$(EPIC_EXTRAVERSION)-$(EPIC_BUILD)
     endif
 endif
 
 PRODUCT_PROPERTY_OVERRIDES += \
-  ro.cm.version=$(CM_VERSION) \
-  ro.cm.releasetype=$(CM_BUILDTYPE) \
-  ro.modversion=$(CM_VERSION) \
-  ro.cmlegal.url=https://www.cyanogenmod.org/docs/privacy
+  ro.epic-os.version=$(EPIC_VERSION) \
+  ro.epic-os.releasetype=$(EPIC_BUILDTYPE) \
+  ro.modversion=$(EPIC_VERSION) \
+  ro.legal.url=http://epic-os.com/?page_id=28
 
--include vendor/cm-priv/keys/keys.mk
+-include vendor/epic-priv/keys/keys.mk
 
-CM_DISPLAY_VERSION := $(CM_VERSION)
+EPIC_DISPLAY_VERSION := $(EPIC_VERSION)
 
 ifneq ($(PRODUCT_DEFAULT_DEV_CERTIFICATE),)
 ifneq ($(PRODUCT_DEFAULT_DEV_CERTIFICATE),build/target/product/security/testkey)
-  ifneq ($(CM_BUILDTYPE), UNOFFICIAL)
+  ifneq ($(EPIC_BUILDTYPE), UNOFFICIAL)
     ifndef TARGET_VENDOR_RELEASE_BUILD_ID
-      ifneq ($(CM_EXTRAVERSION),)
-        # Remove leading dash from CM_EXTRAVERSION
-        CM_EXTRAVERSION := $(shell echo $(CM_EXTRAVERSION) | sed 's/-//')
-        TARGET_VENDOR_RELEASE_BUILD_ID := $(CM_EXTRAVERSION)
+      ifneq ($(EPIC_EXTRAVERSION),)
+        # Remove leading dash from EPIC_EXTRAVERSION
+        EPIC_EXTRAVERSION := $(shell echo $(EPIC_EXTRAVERSION) | sed 's/-//')
+        TARGET_VENDOR_RELEASE_BUILD_ID := $(EPIC_EXTRAVERSION)
       else
         TARGET_VENDOR_RELEASE_BUILD_ID := $(shell date -u +%Y%m%d)
       endif
     else
       TARGET_VENDOR_RELEASE_BUILD_ID := $(TARGET_VENDOR_RELEASE_BUILD_ID)
     endif
-    CM_DISPLAY_VERSION=$(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR)-$(TARGET_VENDOR_RELEASE_BUILD_ID)
+    EPIC_DISPLAY_VERSION=$(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR)-$(TARGET_VENDOR_RELEASE_BUILD_ID)
   endif
 endif
 endif
@@ -318,10 +341,25 @@ endif
 PRODUCT_PROPERTY_OVERRIDES += persist.sys.recovery_update=false
 
 PRODUCT_PROPERTY_OVERRIDES += \
-  ro.cm.display.version=$(CM_DISPLAY_VERSION)
+  ro.epic.display.version=$(EPIC_DISPLAY_VERSION)
 
 -include $(WORKSPACE)/build_env/image-auto-bits.mk
 
 -include vendor/cyngn/product.mk
 
 $(call prepend-product-if-exists, vendor/extra/product.mk)
+
+# statistics identity
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.romstats.url=http://stats.epic-os.com/ \
+    ro.romstats.name=Epic-OS \
+    ro.romstats.version=-$(EPIC_Version) \
+    ro.romstats.askfirst=0 \
+    ro.romstats.tframe=1
+	
+# SOKP Files
+#PRODUCT_COPY_FILES += \
+    #vendor/epic/prebuilt/common/app/Audio_Fx_Widget_1.1.5-signed.apk:system/app/Audio_Fx_Widget/Audio_Fx_Widget_1.1.5-signed.apk \
+    #vendor/epic/prebuilt/common/app/com.krabappel2548.dolbymobile-signed.apk:system/app/Dolbymobile/com.krabappel2548.dolbymobile-signed.apk \
+	#vendor/epic/prebuilt/common/app/ApexLauncher_v2.4.1beta1.apk:system/app/ApexLauncher/ApexLauncher_v2.4.1beta1.apk 
+	
