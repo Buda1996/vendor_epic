@@ -1,38 +1,31 @@
 # Inherit common CM stuff
-$(call inherit-product, vendor/cm/config/common.mk)
+$(call inherit-product, vendor/epic/config/common.mk)
 
 # Bring in all video files
 $(call inherit-product, frameworks/base/data/videos/VideoPackage2.mk)
 
-# Include CM audio files
-include vendor/cm/config/cm_audio.mk
+# Include EPIC audio files
+include vendor/epic/config/cm_audio.mk
 
-# Include CM LatinIME dictionaries
-PRODUCT_PACKAGE_OVERLAYS += vendor/cm/overlay/dictionaries
+# Include EPIC LatinIME dictionaries
+PRODUCT_PACKAGE_OVERLAYS += vendor/epic/overlay/dictionaries
 
-# Optional CM packages
+# Optional EPIC-OS packages
 PRODUCT_PACKAGES += \
-    Galaxy4 \
-    HoloSpiralWallpaper \
-    LiveWallpapers \
     LiveWallpapersPicker \
-    MagicSmokeWallpapers \
-    NoiseField \
     PhaseBeam \
-    VisualizationWallpapers \
     PhotoTable \
     SoundRecorder \
     PhotoPhase
 
 PRODUCT_PACKAGES += \
-    VideoEditor \
     libvideoeditor_jni \
     libvideoeditor_core \
     libvideoeditor_osal \
     libvideoeditor_videofilters \
     libvideoeditorplayer
 
-# Extra tools in CM
+# Extra tools in EPIC-OS
 PRODUCT_PACKAGES += \
     vim \
     zip \
