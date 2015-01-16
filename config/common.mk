@@ -302,8 +302,6 @@ ifeq ($(EPIC_BUILDTYPE), RELEASE)
     endif
 else
     ifeq ($(PRODUCT_VERSION_MINOR),0)
-        EPIC_VERSION := v$(PRODUCT_VERSION_MAJOR)-$(shell date -u +%Y%m%d)-$(EPIC_BUILDTYPE)$(EPIC_EXTRAVERSION)-$(EPIC_BUILD)
-    else
         EPIC_VERSION := v$(PRODUCT_VERSION_MAJOR).$(PRODUCT_VERSION_MINOR)-$(shell date -u +%Y%m%d)-$(EPIC_BUILDTYPE)$(EPIC_EXTRAVERSION)-$(EPIC_BUILD)
     endif
 endif
