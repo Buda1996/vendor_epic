@@ -307,8 +307,8 @@ else
 endif
 
 PRODUCT_PROPERTY_OVERRIDES += \
-  ro.epic-os.version=$(EPIC_VERSION) \
-  ro.epic-os.releasetype=$(EPIC_BUILDTYPE) \
+  ro.epicos.version=$(EPIC_VERSION) \
+  ro.epicos.releasetype=$(EPIC_BUILDTYPE) \
   ro.modversion=$(EPIC_VERSION) \
   ro.legal.url=http://epic-os.com/?page_id=28
 
